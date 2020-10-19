@@ -1,7 +1,10 @@
 from .create_app import create_app
-from .cost_estimate_linear_regression import cost_estimate_linear_regression
+from .linear_regression import *
 
 __all__ = [
     "create_app",
-    "cost_estimate_linear_regression"
+    "lstsq",
+    "create_tf_model",
+    "compute_weights_lstsq",
+    "compute_weights_tf"
 ]

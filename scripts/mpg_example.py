@@ -11,6 +11,7 @@ from tensorflow.keras import layers
 
 
 from cost_estimate_api import cost_estimate_linear_regression
+from cost_estimate_api.cost_estimate_linear_regression import lstsq
 
 
 def load_data():
@@ -25,12 +26,16 @@ def load_data():
     return dataset
 
 
-def build_model(n_features):
-    model = tf.keras.Sequential([
-        layers.Dense(units=1, input_shape=[n_features, ])
-    ])
-    return model
-
+# def build_model(n_features):
+#     model = tf.keras.sequential([
+#         layers.Dense(units=1, input_shape=[n_features, ])
+#     ])
+#     model.compile(
+#         optimizer=tf.optimizers.Adam(learning_rate=0.001),
+#         loss='mean_absolute_error')
+#
+#     return model
+#
 
 
 def test_cost_estimate_linear_regression_mpg():
@@ -40,15 +45,8 @@ def test_cost_estimate_linear_regression_mpg():
     # x = np.asarray(data["Displacement"]).reshape((-1, 1))
     y = np.asarray(data["MPG"])
 
-    weights = cost_estimate_linear_regression(x, y)
-
-    model = build_model(x.shape[1])
-    model.compile(
-        optimizer=tf.optimizers.Adam(learning_rate=0.001),
-        loss='mean_absolute_error')
-    model.fit(x, y, epochs=400)
-    print([v.value() for v in model.layers[0].weights])
-    print(weights)
+    weights_tf = cost_estimate_linear_regression(x, y)
+    weights_lstsq = lstsq(x, y)
 
     def f_factory(_weights):
         def f(_x):
@@ -61,14 +59,14 @@ def test_cost_estimate_linear_regression_mpg():
     fig, ax = plt.subplots(1,1, figsize=(20, 20))
 
     x_plot = x[:, 0]
-    f = f_factory(weights)
-    print(f(x).shape)
+    f_lstsq = f_factory(weights_lstsq)
+    f_tf = f_factory(weights_tf)
 
     ax.scatter(x_plot, y)
-    ax.scatter(x_plot, f(x), color="green")
-    ax.scatter(x_plot, model.predict(x), color="red")
-    # X, y = make_regression(n_samples=2, random_state=1)
-    # print(X, y)
+    ax.scatter(x_plot, f_lstsq(x), color="green", label="least squares")
+    ax.scatter(x_plot, f_tf(x), color="red", label="tensorflow")
+    # ax.scatter(x_plot, model.predict(x), color="red")
+
     plt.show()
 
 
