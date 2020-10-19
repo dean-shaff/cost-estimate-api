@@ -13,10 +13,13 @@ def lstsq(x: ArrayType, y: ArrayType):
     """
     Compute least square solution, using np.linalg.lstsq
     """
-    pass
+    # first we have to append offset column to x.
+    A = np.concatenate([x, np.ones((len(x), 1))], axis=1)
+    weights = np.linalg.lstsq(A, y)[0]
+    return weights
 
 
-def cost_estimate_linear_regression(data: ArrayType) -> ArrayType:
+def cost_estimate_linear_regression(x: ArrayType, y: ArrayType) -> ArrayType:
     """
     Given some training data, train a neural network for linear regression, returning the corresponding weights.
 
@@ -27,6 +30,5 @@ def cost_estimate_linear_regression(data: ArrayType) -> ArrayType:
     Returns:
         ArrayType: weights, as computed by neural network.
     """
-
-
-    return np.zeros(4)
+    weights = lstsq(x, y)
+    return weights
