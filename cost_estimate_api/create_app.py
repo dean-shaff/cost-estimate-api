@@ -10,6 +10,9 @@ __all__ = [
 
 
 def create_app() -> web.Application:
+    """
+    Add "/fit" route to aiohttp route table, returning application.
+    """
     app = web.Application()
     app.add_routes([web.post('/fit', fit_handler_factory(compute_weights_tf))])
     return app
