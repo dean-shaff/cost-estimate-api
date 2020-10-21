@@ -96,6 +96,13 @@ request_data = {
 }
 ```
 
+### Testing
+
+```
+me@local:/path/to/cost-estimate-api$ poetry run python -m unittest
+```
+
+
 ### Routes
 
 ##### POST `/fit`:
