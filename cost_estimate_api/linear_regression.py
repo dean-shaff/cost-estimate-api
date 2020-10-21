@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+
 from .types import ArrayType
 
 
@@ -27,7 +28,7 @@ def lstsq(x: ArrayType, y: ArrayType):
     """
     # first we have to append offset column to x.
     A = np.concatenate([x, np.ones((len(x), 1))], axis=1)
-    weights = np.linalg.lstsq(A, y)[0]
+    weights = np.linalg.lstsq(A, y, rcond=None)[0]
     return weights
 
 
@@ -78,7 +79,7 @@ def compute_weights_lstsq(x: ArrayType, y: ArrayType) -> ArrayType:
         ArrayType: weights, as computed by numpy.linalg.lstsq
 
     """
-    return lstsq(x, y)
+    return lstsq(x, y).reshape((-1, ))
 
 
 def compute_weights_tf(x: ArrayType, y: ArrayType, learning_rate=0.001, epochs=400) -> ArrayType:
@@ -104,7 +105,7 @@ def compute_weights_tf(x: ArrayType, y: ArrayType, learning_rate=0.001, epochs=4
     # weights = lstsq(x, y)
     n_features = x.shape[1]
     model = create_tf_model(n_features, optimizer=tf.optimizers.Adam(learning_rate=learning_rate))
-    model.fit(x, y, epochs=epochs)
+    model.fit(x, y, epochs=epochs, verbose=0)
 
     weights = np.zeros(n_features + 1)
     weights[:x.shape[1]] = (model.layers[0].weights[0].numpy())[:, 0]

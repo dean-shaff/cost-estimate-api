@@ -44,6 +44,8 @@ class TestLinearRegression(unittest.TestCase):
         x, y = load_mpg_data()
         weights_tf = compute_weights_tf(x, y)
         weights_lstsq = compute_weights_lstsq(x, y)
+        # print(weights_tf.shape, weights_lstsq.shape)
+        # print(weights_tf, weights_lstsq)
 
     def test_compute_weights(self):
         x, y = load_json_data(test_file_path)
