@@ -39,9 +39,14 @@ def fit_handler_factory(compute_weights_fn: typing.Callable[[ArrayType, ArrayTyp
 
         data = np.asarray(json_data["data"])
 
+        kwargs = {}
+        for name in ["learning_rate", "epochs"]:
+            if name in json_data:
+                kwargs[name] = json_data[name]
+
         x, y = data[:, 1:], data[:, 0]
 
-        weights = compute_weights_fn(x, y)
+        weights = compute_weights_fn(x, y, **kwargs)
 
         return web.json_response({"weights": weights.tolist()})
 

@@ -47,7 +47,7 @@ me@local:/path/to/cost-estimate-api$ TF_CPP_MIN_LOG_LEVEL=3 poetry run python -m
 ======== Running on http://0.0.0.0:5000 ========
 ```
 
-With the server running, we can make a request (taken from `examples/request_example.py`):
+With the server running, we can make a request to fit some data (taken from `examples/request_example.py`):
 
 ```python
 import asyncio
@@ -80,6 +80,20 @@ if __name__ == "__main__":
 
 (This example assumes you have the server running on port 8080)
 
+Sometimes the computed weights may not be satisfactory, so we can modify some of the training parameters:
+
+```python
+request_data = {
+    "data": [
+        [100000, 1000, 3, False],
+        [200000, 1500, 4, False],
+        [300000, 1500, 4.5, True],
+        [257000, 1200, 3, False]
+    ],
+    "learning_rate": 0.0001,
+    "epochs": 500
+}
+```
 
 ### Routes
 
@@ -92,9 +106,13 @@ Request body:
   "data": [
     [cost_0, input_0_0, input_0_1, ....]
     [cost_1, input_1_0, input_1_1, ....]
-  ]
+  ],
+  "learning_rate": 0.0001,
+  "epochs": 400
 }
 ```
+
+The `learning_rate` and `epochs` fields are optional.
 
 The expected output should be in the first column of the data. The input values occupy the rest of the columns.
 

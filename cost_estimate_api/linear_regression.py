@@ -58,7 +58,7 @@ def create_tf_model(n_features: int, **kwargs) -> tf.keras.Model:
     return model
 
 
-def compute_weights_lstsq(x: ArrayType, y: ArrayType) -> ArrayType:
+def compute_weights_lstsq(x: ArrayType, y: ArrayType, **kwargs) -> ArrayType:
     """
     Given some training data, get least squares solution to linear regression problem.
 
@@ -102,6 +102,8 @@ def compute_weights_tf(x: ArrayType, y: ArrayType, learning_rate=0.001, epochs=4
     Returns:
         ArrayType: weights, as computed by neural network.
     """
+    print(f"compute_weights_tf: learning_rate={learning_rate}")
+    print(f"compute_weights_tf: epochs={epochs}")
     # weights = lstsq(x, y)
     n_features = x.shape[1]
     model = create_tf_model(n_features, optimizer=tf.optimizers.Adam(learning_rate=learning_rate))

@@ -9,7 +9,9 @@ request_data = {
         [200000, 1500, 4, False],
         [300000, 1500, 4.5, True],
         [257000, 1200, 3, False]
-    ]
+    ],
+    "learning_rate": 0.0001, # optional
+    "epochs": 400 # optional
 }
 
 
