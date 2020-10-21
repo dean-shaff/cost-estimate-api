@@ -121,7 +121,7 @@ Response body:
 
 ```
 {
-  "weights": [fitted1, fitted2, ..., bias]
+  "weights": [weight_0, weight_1, ..., bias]
 }
 ```
 
