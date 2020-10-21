@@ -49,7 +49,7 @@ me@local:/path/to/cost-estimate-api$ TF_CPP_MIN_LOG_LEVEL=3 poetry run python -m
 
 With the server running, we can make a request to fit some data (taken from `examples/request_example.py`):
 
-Here we'll be training on some data pertaining to house values. The first value in each row is a house's market price and the remaining values correspond to Square Footage, Bedrooms, and the presence of a Swimming pool, respectively. In other words, the first column of our training data is the value we're attempting to predict, and the remaining columns are input parameters to linear regression model.
+Here we'll be training on some data pertaining to house values. The first value in each row is a house's market price and the remaining values correspond to Square Footage, Bedrooms, and the presence of a Swimming pool, respectively. In other words, the first column of our training data is the value we're attempting to predict, and the remaining columns are input parameters to the linear regression model.
 
 ```python
 import asyncio

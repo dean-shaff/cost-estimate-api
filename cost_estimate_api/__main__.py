@@ -15,7 +15,7 @@ def create_parser() -> argparse.ArgumentParser:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     parsed = create_parser().parse_args()
-
     app = create_app()
     web.run_app(app, port=parsed.port)

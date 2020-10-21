@@ -1,4 +1,6 @@
 # cost_estimate_linear_regression.py
+import logging
+
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -6,6 +8,8 @@ from tensorflow.keras import layers
 
 
 from .types import ArrayType
+
+module_logger = logging.getLogger(__name__)
 
 
 __all__ = [
@@ -102,13 +106,14 @@ def compute_weights_tf(x: ArrayType, y: ArrayType, learning_rate=0.001, epochs=4
     Returns:
         ArrayType: weights, as computed by neural network.
     """
-    print(f"compute_weights_tf: learning_rate={learning_rate}")
-    print(f"compute_weights_tf: epochs={epochs}")
+    module_logger.debug(f"compute_weights_tf: learning_rate={learning_rate}")
+    module_logger.debug(f"compute_weights_tf: epochs={epochs}")
     # weights = lstsq(x, y)
     n_features = x.shape[1]
     model = create_tf_model(n_features, optimizer=tf.optimizers.Adam(learning_rate=learning_rate))
     model.fit(x, y, epochs=epochs, verbose=0)
 
+    # we have to extract weights and bias seperately from model
     weights = np.zeros(n_features + 1)
     weights[:x.shape[1]] = (model.layers[0].weights[0].numpy())[:, 0]
     weights[-1] = model.layers[0].weights[1].numpy()
